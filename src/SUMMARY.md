@@ -1,3 +1,5 @@
 # Summary
 
-[Introduction](./introduction.md)
+* [Introduction](./introduction.md)
+* [Specification maintenance](./spec-maintenance.md)
+    * [Outline](./spec-maintenance-outline.md)
