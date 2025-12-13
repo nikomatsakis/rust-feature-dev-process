@@ -1,0 +1,11 @@
+[book]
+title = "Rust feature development process proposal"
+authors = []
+language = "en"
+src = "src"
+
+[build]
+build-dir = "book"
+
+[output.html]
+git-repository-url = "https://github.com/nikomatsakis/rust-feature-dev-process"
