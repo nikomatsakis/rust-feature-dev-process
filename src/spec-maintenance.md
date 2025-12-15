@@ -18,7 +18,7 @@ The spec team was chartered to enact [RFC #3355][], which declares the intent to
 
 The RFC envisioned creating a new document that was "expected to replace the current Rust Reference". However, the team now sees building on the reference and the FLS as a more practical path:
 
-1. The reference serves as the most up-to-date, normative document describing the behavior of Rust. Per [RFC #1636][], stabilization already requires the reference be updated.
+1. The reference serves as the most up-to-date, normative document describing the behavior of Rust.
 2. The FLS "trails" the reference, bringing in the subset of additions that are relevant to the safety critical community.
 
 [RFC #1636]: https://rust-lang.github.io/rfcs/1636-document_all_features.html
@@ -36,163 +36,253 @@ For 2025H2 the team took two goals, both focused on making concrete progress. Th
 
 ## Where We Align
 
-There is broad agreement on several important points:
+### Reference updates should happen earlier
 
-**Content experts own technical accuracy.** The lang/types/compiler teams are the ones that make the decisions that determine what the reference should express. When it comes to normative content, those teams are the ultimate source of authority.
+For the reference to help our process, we need to make keeping it up-to-date a more integral part of our process. We shouldn't wait until stabilization to write reference content. The act of writing reference content can help to find bugs and edge cases and it would be better to do it as part of the RFC process.
 
-**An editorial function is needed.** Someone needs to ensure the reference is coherent, accessible, and maintains a consistent voice. Raw technical content needs to be shaped into something readable by a broader audience.
+### Split responsibility
 
-**Teams don't want to do editorial work.** Multiple contributors have expressed that while they can provide technical content, the work of structuring and polishing documentation is distinct from their expertise:
+The responsibility for the content in the reference should be divided between:
+
+* **content teams**, like lang, types, and opsem, that own the actual **rules being documented**. Ultimately these types need to be aligned with the content in the reference;
+* an **editorial team**, currently t-lang/docs, that is responsible for the coherence, accessibility, and professional tone of the reference.
+
+Members of content teams do not want to do editorial work:
 
 > "I am an expert at [figuring out what to document on a technical level]. I am not an expert at figuring out how to structure this documentation. Doing that well is difficult and requires a lot of time."
 
-> "I think even with T-types in control of the reference, there should be someone who takes dumps of information and puts them into a shape which is appropriate for the reference. We should review the final reference changes, answer any questions that come up during that process, and generally proactively provide them with the technical information they need."
-
-**Reference updates should happen earlier in the development process.** Everyone agrees that waiting until stabilization to think about documentation creates friction. The question is *how* to integrate documentation work earlier.
-
-**Subject matter teams should drive reference updates.** Lang-team and types-team champions should be responsible for ensuring reference updates happen, though contributors or feature owners can also drive the work.
-
 ## Where We're Stuck
 
-### The Current Process
+The general shape of the process that we want seems clear:
 
-Under the [current process](https://github.com/rust-lang/reference/blob/master/docs/review-policy.md), authors write a PR that is accurate but not necessarily in the "editorial voice" of the reference. The t-lang/docs team assesses whether content is *understandable* and *defensible*, revising phrasing, organization, and style as needed before merging.
+* Contributors author a "first draft" of the reference content, focused on getting their understanding correct.
+    * Lang team champions in particular are expected to help out with this work (possibly writing the reference material themselves).
+* This first draft is vetted by the content team.
+    * This will involve some iteration but the result may not be accessible to people outside the team, may use jargon, etc.
+    * The types and opsem teams will also prototype in a-mir-formality and mini-rust respectively.
+* The editorial team makes changes and improvements.
+    * Lang team champions in particular are expected to help out with this work (possibly writing the reference material themselves).
 
-Contributors have shared what works well for them: office hours were widely praised, the reference is a high-quality readable document, and being able to write documentation in a "natural" style and lean on editors to clean it up is valuable.
+But there are many differences in the details. This section explores a variety of options.
 
-### Contributor Experiences
+### Overview of process alternatives
 
-Contributors have also shared where they feel friction:
+We present four alternative processes for how this process might work. All of them are grappling with a few core issues:
+
+* How shall we maintain reference text while it is being authored?
+* How shall we combine the input from the content team, editorial team, and PR authors?
+* How can we keep the reference up-to-date while ensuring that there is a coherent document ready to be published every 6 weeks?
+
+The four alternatives are as follows:
+
+1. *Long-lived PRs* (current process), where reference content is kept in a pending PR until it is ready to be merged (in the case of new features, this means that the feature has been stabilized). This holds the highest bar for quality of the reference itself, but comes at the cost of long review times and the need for PR authors to regularly rebase.
+2. *Feature-gated text* (proposed by the reference expansion team), where reference content can be landed in tree but with various "feature gates" that indicate whether the text (a) has been approved by the content team; (b) has been approved by the editorial team; and (c) covers a stable Rust feature. Text is considered unstable and subject to arbitrary changes until all three conditions are met.
+3. *Nightly reference*, a middle-ground between options 1 and 2, in which there is a single topic branch ("nightly") that contains feature-gated reference text. Reference changes land first in nightly and then are "ported over" to the reference when they've reached a required level of stability.
+
+Naturally, whichever variant we choose, there are many fine-grained details to be worked out. The focus for this meeting should be the high-level direction.
+
+### Option 1: Long-lived PRs (current process)
+
+Under the [current process](https://github.com/rust-lang/reference/blob/master/docs/review-policy.md), changes to reference documentation stay in PRs until they meet three criteria:
+
+> * **Understandability**: Language within the Reference should be understandable to most members of the Project. Contributions should assumes that readers are familiar with the rest of the content of the Reference, but, wherever possible, sections should facilitate that understanding by linking to related content.
+> * **Defensibility**: When the lang-docs team merges a change to the Reference, they are agreeing to take responsibility for it going forward. Team members need to feel confident defending and explaining the correctness of content within the Reference. Whenever possible, changes to the Reference should back up any claims with concise examples to verify correctness.
+> * **Voice**: Authors are not expected to have competence as a specification writer when drafting new contributions to the Reference. So long as claims are understandable and defensible, it is fine for PRs to be written in a casual tone or with the voice of the author instead of the voice of the Reference. Team members will bring editorial experience as part of their reviews and will revise the phrasing, organization, style, etc. to fit the Reference before merging if necessary.
+
+The intended flow is that authors create an initial draft and the editorial team leaves commits and/or applies rewrites. The editorial team meets during weekly "office hours" to discuss these proposed suggestions and contributors are welcome to join. Once the PR reaches a state where it meets the above threshold, it can be merged. PRs do not need to be *complete* -- they may reference "to be written" parts of the reference -- but the text that is included needs to meet the bar for publication.
+
+#### Connection to feature stabilization
+
+Per [RFC #1636][], stabilization requires a reference chapter to be available.
+
+#### Pro: high quality and editorial consistency
+
+The current reference is a readable document with a profesional tone. Recent changes have adopted several the FLS's practice of labeling paragraphs and linking tests, making for easy reference, and PRs have also begun to include inline tests as evidence of defensibility (i.e., including a test that demonstates the language rule being described).
+
+The team works to ensure that each release of the reference reads "like a book", with consistent terminology and structure across chapters.
+
+#### Pro: easily visible diff
+
+Keeping the changes for a language feature or reference update in a PR has the advantage that it is easy to view the diff for a new feature. This is useful during stabilization for example.
+
+#### Pro: editorial review by non-experts helps to find bugs
+
+TC put it like this:
+
+> As a meta point that often comes up in discussions about this, it's worth emphasizing that editorial review is not generally separable from determining that it's feature complete. It's the process of going over it with a fine-tooth comb that routinely uncovers the semantic problems and gaps. That we also might switch "a"s to "an"s in this step is not what dominates the cost.
+
+It is not the case that only the editorial team *can* do this (others do as well), but (today) it is often the editorial team that *does* do it.
+
+#### Con: long PR review time, sense of "PR limbo"
+
+In practice, the data suggests that many PRs are merged quite quickly but the remainder can stay open for a long time (the following chart contains PRs since the start of 2024):
+
+```
+PR Status Distribution (Non-trivial PRs: ≥5 line changes)
+Merged: n=289, Open: n=79, Draft: n=7
+==========================================================================================
+Time Range   │ Merged                 │ Open (ready)          │ Draft          
+──────────────────────────────────────────────────────────────────────────────────────────
+0-1 weeks    │ ██████████ 139 (48.1%) │             0 ( 0.0%) │             1 (14.3%)
+1-4 weeks    │ █████      70 (24.2%)  │             3 ( 3.8%) │             0 ( 0.0%)
+1-3 months   │ ███        55 (19.0%)  │ █          14 (17.7%) │             1 (14.3%)
+3-6 months   │ █          24 ( 8.3%)  │ ██         32 (40.5%) │             2 (28.6%)
+6-9 months   │             1 ( 0.3%)  │             6 ( 7.6%) │             0 ( 0.0%)
+9-12 months  │             0 ( 0.0%)  │             5 ( 6.3%) │             0 ( 0.0%)
+1+ years     │             0 ( 0.0%)  │ █          19 (24.1%) │             3 (42.9%)
+
+Merged stats: median=8.1 days, min=0.0, max=184.9
+Open stats:   median=168.0 days, min=7.1, max=2314.0
+Draft stats:  median=122.7 days, min=1.3, max=1560.1
+
+Filtered out 109 trivial merged PRs
+Filtered out 12 trivial open PRs
+Filtered out 1 trivial draft PRs
+```
+
+These long delays mean that contributors are reluctant to block their changes on having landed changes to the reference. I want to emphasize that these quotes are shared in the spirit of a "no fault" analysis and are not meant to assign blame to the existing reference maintainers.
 
 > "I've been pretty disappointed with the pace and arbitrary nature of how reference changes have proceeded in the past. Unless the reference team wants to give us [...] the ability to greenlight changes to the reference ourselves so we can accelerate things that are blocked, then it really feels like we're stranding ourselves here."
 
-> "If it were up to me we wouldn't even block language features on reference PRs being accepted."
-
-> "The way the reference talks about the type system is incomplete, but even worse, the existing structure does not match our mental model/the implementation. This means that we may need to first restructure significant parts of it to document an actually small-ish change."
-
-> "Right now the reference is an incredibly inaccessible walled garden where [I've been] told me multiple times that nobody should expect to be able to contribute a good PR to the reference and that it will need to be rewritten."
-
 > "I'd be very discouraged if I had to, on top of the monumental effort of fixing the code itself and validating it didn't cause any regressions, also author or edit (or wait for someone to author/edit) a somewhat tedious section [...] In a really selfish way, it feels like punishing the author for trying to do something positive with the language."
 
-The causes are multidirectional. t-lang/docs members report that it is difficult to get authors to "follow through" on reference changes, and that authoring is often an afterthought. The team is also understaffed (currently 2 members). From the other side, PR authors report it can be difficult to tell the state of a PR and what work is required to make it ready to land.
+#### Con: difficult for multiple authors to collaborate; hard to point people at the content
 
-### Editorial Capacity
 
-The current team size is insufficient for the integration goals we're discussing. But *how much* capacity we need depends on *what process* we choose—some approaches distribute editorial work differently than others
+### Option 2: feature-gated edits
 
-## Focus: Process Design
+Josh Triplett and the team working on the reference expansion goal have been experimenting with an alternative process, [*feature-gated edits*](https://rust-lang.github.io/project-goal-reference-expansion/). In this process, new text can be landed in the reference and tagged with various kinds of feature-gates that indicate what remains to be done before the code can be considered stable:
 
-This document focuses on process options rather than team composition. Why? Because different processes require different types and amounts of capacity. Process choice will determine what editorial capacity we need and how it's distributed.
+* Needs content-team review
+* Needs editorial review
+* Needs stabilization (documents behavior of an unstable feature)
+* ...and of course there are more possibilities, e.g., needs test, etc.
 
-The question isn't "should we have staging?" We already have a staging area—open PRs *are* a staging area where content waits before entering the reference. The question is: **how should that staging area work?**
+The precise process for managing this content would have to be worked out, but the general idea is something like this
 
-### Key Design Question: Editorial Workflow
+* Any content team can land feature-gated content in the reference
+* Removing the "needs X review" tag requires approval by the team (e.g., FCP)
+* Once the text has been reviewed, the team should be looped into further changes
+    * e.g., once the types team has signed off on something, they should be cc'd on editorial changes
+    * and once the editorial team has signed off on something, they should be cc'd on any fixes
 
-We align on content teams writing first drafts (or at least providing technical accuracy). The design question is: **who does the editing and cleanup work?**
+Some questions to consider:
 
-- Does editorial cleanup happen *before* content enters the staging area, or *after*?
-- Does it happen incrementally per-PR, or in batches?
-- Who has merge authority over different kinds of content?
+#### Pro: Enables iteration by multiple authors
 
-Different answers to these questions lead to different process models with different capacity implications.
+This setup naturally scales to iteration and contribution from multiple authors. For example, the implementor and the champion of a lang feature could both review each others PRs, just as they do on the compiler, until the reference text has reached a state where they consider it ready for review by the broader team.
 
-### Role of Formal Models
+Because text has landed upstream, it is also easy to point other people at it for review (just give them the URL).
 
-For the types team especially, prose in the reference may not be the right medium for specifying type system behavior. Projects like a-mir-formality and minirust serve as team-owned precision layers:
+#### Pro: Refactoring and terminology changes can be applied uniformly
 
-> "I feel like for T-types the answer to [precise specification] should be a-mir-formality and a better rustc impl, not the reference or the spec."
+Having "in-progress" text edits landed in the repository would have the same 
 
-> "My expectation here is that improving the reference for type system related things, in the long term, ought to have no value for the types team itself because we should be maintaining our own more rigorous/involved pieces of documentation."
+* Does it make sense to land "refactors" to stable content to "make room" for feature-gated content, even if that makes the stable content more complex?
+    * Example: if creating new rules for temporaries would work better with a different formulation that is more complex than what's needed for the current rules, should we do so?
 
-These formal models can serve as a "first draft" source—the precision layer that feeds into the reference staging process, with editorial work translating formal specifications into accessible prose.
+#### Con: Reference includes "unstable" text
 
-## Four Staging Area Models
+The current reference includes only "stable" text, making it suitable for viewing from outside the Rust project. A reference that includes draft text might work against the "reputation for stability" that would otherwise come from a polished, well maintained specification.
 
-Here are four approaches to how the staging area could work. Each represents a different tradeoff between sync overhead, editorial workflow, and capacity requirements.
+It is possible that feature-gated text could be hidden by default, but that would require careful work to ensure that the remaining text makes sense without it -- there is no "type checker" for the reference to avoid, for example, errant references. The current prototype does not include this capability.
 
-### Model A: PRs (Current Approach)
+Many people have observed that feature-gated text also fails to account for the fact that adding new content into the reference often requires changes to accompanying, stable sections, so that they can be "widened" to accommodate the new semantics. It is possible that these changes could land however as independent refactorings.
 
-Open PRs serve as the staging area. Content waits in PRs until it meets editorial standards, then merges.
+#### Con: text may never receive polish
 
-**Sync pattern**: Continuous per-PR sync—each PR must be brought to completion before merging.
+Without the clear list of "open PRs", it is harder to see what text needs to be polished. The editorial team expressed concerns that feature-gated or unstable content would become a dumping ground.
 
-**Editorial workflow**: Editorial review happens on each PR before merge. Authors write content; editors revise before accepting.
+### Option 3: "nightly" reference
 
-**Who has merge authority**: t-lang/docs team members.
+As a middle ground on the above, we could have two distinct copies of the reference. The "nightly" reference would contain feature-gated text. All edits would go first into nightly. At the point where a feature is ready to be stabilized, its text could be "upstreamed" to the stable reference.
 
-**Capacity implications**: Requires editorial bandwidth to review each PR individually. Creates bottleneck if editorial capacity is limited.
+This would be similar to how clippy and the compiler interact, except that (ideally) work would only land on the nightly, so that two-way synchronization is not required.
 
-**Strengths**: High quality bar for everything that lands. Reference always maintains consistent voice.
+#### Pro: the stable reference presents a polished picture, the nightly reference allows for easy iteration
 
-**Weaknesses**: PRs can stay open indefinitely. Unclear progress signals. Blocks authors who can't dedicate time to editorial iteration.
+This middle ground corrects some of the concerns that could come from a reference with unstable content.
 
-### Model B: Topic Branches
+#### Con: more coordination cost
 
-Long-lived branches for major topic areas (e.g., `types/trait-solver`, `lang/patterns`). Content accumulates on topic branches with lower editorial standards, then gets cleaned up and merged periodically.
+It would be more work to lift text from the "nightly" to the "stable" reference and there is already a lack of review bandwidth.
 
-**Sync pattern**: Periodic per-branch sync—topic branches merge into main on a cadence (like clippy).
+## Appendix
 
-**Editorial workflow**: Technical content can land on topic branches with minimal editorial friction. Editorial cleanup happens in batches before branch merges.
+Scatter charts for merged vs open PRs by size
 
-**Who has merge authority**: Subject matter teams have authority over their topic branches. Editorial team reviews at branch merge time.
+```
+MERGED PRs: Size vs Time to Merge
+Points: 398 total, 397 shown (≤2000 lines, ≤1000 days)
+================================================================================
+Age (days)
+   185 ┤
+       ┤░                                                                     
+       ┤░                                                                     
+       ┤░                                                                     
+       ┤                                                                      
+       ┤░                      ░░                                             
+       ┤                                                                      
+       ┤░      ░                                                              
+       ┤▒▒                   ░                                                
+       ┤░                                                                     
+       ┤░░                                                                    
+       ┤   ░░ ░░                  ░                                           
+       ┤▒    ░    ░                                                           
+    92 ┤▒                                                                     
+       ┤░ ░                                                                   
+       ┤▒░                                                                    
+       ┤ ▒░ ▒                                                                 
+       ┤░░ ░  ░       ░              ░                                        
+       ┤░   ░                                                                 
+       ┤█░▒     ░░                                                            
+       ┤▓▒                                                                    
+       ┤█▓ ░  ▒                                                               
+       ┤█▓░░▒▒       ░                                                        
+       ┤█▓▒▒░░                                                                
+       ┤█▒▓░▒░░       ░ ░      ░     ░                                        
+     0 ┤████▓▒▒▓░░      ░     ░▒                             ░               ░
+       └──────────────────────────────────────────────────────────────────────
+        1                                                                 1741
+                              Size (lines changed)
 
-**Capacity implications**: Editorial work happens in batches rather than per-PR. Subject matter teams can make progress without waiting for editorial review.
+Density: ░=1 point, ▒=2-3 points, ▓=4-7 points, █=8+ points
+Stats: avg size=62 lines, avg age=21.1 days
 
-**Strengths**: Unblocks authors. Separates "is this technically correct?" from "is this editorially polished?" Subject matter teams have ownership.
+OPEN PRs: Size vs Age Since Opening
+Points: 99 total, 86 shown (≤2000 lines, ≤1000 days)
+================================================================================
+Age (days)
+   958 ┤
+       ┤░                                                                     
+       ┤                                                                      
+       ┤                                                                      
+       ┤                                                                      
+       ┤                                                                      
+       ┤                                                                      
+       ┤▒                                                                     
+       ┤░░          ░                                                         
+       ┤░                                                                     
+       ┤                                                                      
+       ┤                                                                      
+       ┤                                                                      
+   480 ┤░              ░                                                      
+       ┤▒     ░                                                               
+       ┤░      ░     ░                                                        
+       ┤░                                                                     
+       ┤░                                                                     
+       ┤░       ░░                                                            
+       ┤░░   ▒                                                                
+       ┤▒                                                                     
+       ┤▒▓▓▒░░░▒░  ░ ░ ░░░                                                    
+       ┤▓░     ░░                                                             
+       ┤▓░░ ░      ░                                                          
+       ┤▓░▒ ░  ░░                           ░                                 
+     1 ┤▓░             ░                                     ░               ░
+       └──────────────────────────────────────────────────────────────────────
+        2                                                                 1555
+                              Size (lines changed)
 
-**Weaknesses**: Topic branches can drift. Batch editorial work may be harder than incremental. Risk of branches never reaching merge-ready state.
-
-### Model C: Nightly vs Stable Reference
-
-Two separate reference instances: a "nightly reference" where content lands with lower standards, and a "stable reference" that maintains high editorial quality. Content flows from nightly to stable.
-
-**Sync pattern**: Periodic repo sync—like how clippy tracks rust-lang/rust. Nightly reference tracks main, stable reference pulls from nightly.
-
-**Editorial workflow**: Nightly reference accepts technically-correct content with minimal polish. Editorial team reviews content when promoting to stable.
-
-**Who has merge authority**: Subject matter teams can merge to nightly. Editorial team controls stable.
-
-**Capacity implications**: Similar to Model B—batch editorial work at promotion time. Clear separation of technical vs editorial review.
-
-**Strengths**: Clear mental model ("nightly" for work-in-progress, "stable" for polished). Subject matter teams can move fast on nightly.
-
-**Weaknesses**: Two repos to maintain. Users may be confused about which reference to consult. Content may languish in nightly.
-
-### Model D: Feature Flags
-
-Content lives in the main reference but behind feature flags (similar to `#![feature(...)]` in the language). Flagged content is visible but marked as draft/unstable.
-
-**Sync pattern**: Continuous sync per PR—content lands immediately but flagged. Editorial work removes the flag.
-
-**Editorial workflow**: Authors land technically-correct content behind flags. Editorial team polishes and removes flags.
-
-**Who has merge authority**: Subject matter teams can merge flagged content. Editorial team controls flag removal.
-
-**Capacity implications**: Editorial work can happen asynchronously after content lands. No batch pressure.
-
-**Strengths**: Content is immediately visible and useful. Clear signal of what's draft vs polished. Incremental editorial progress.
-
-**Weaknesses**: Requires tooling for flags. Users see draft content (maybe confusing). Risk of content staying flagged forever.
-
-## Example Scenarios
-
-*[To be developed: How would each model handle typical situations?]*
-
-- A new language feature is stabilizing and needs documentation
-- A types team member discovers the current reference structure doesn't match their mental model
-- An enthusiastic contributor wants to document an underdocumented area
-- A safety-critical user needs to know exactly what changed between Rust versions
-
-## Discussion Questions
-
-Rather than prescribing a solution, we're bringing these options for broader discussion:
-
-1. **Does framing the current process as "a staging area that could work differently" resonate?** Or does this framing obscure important considerations?
-
-2. **Which tradeoffs matter most to you?** Speed of landing content vs. consistent quality? Subject matter team autonomy vs. editorial coherence?
-
-3. **What would make you comfortable blocking on reference updates?** The types team has been clear that current friction makes blocking unacceptable. What would have to change?
-
-4. **Are there hybrid approaches worth considering?** For example, Model A for small changes + Model B for major new chapters?
-
-5. **What experiments could we run?** Rather than committing to a wholesale process change, what targeted experiments might help us learn?
+Density: ░=1 point, ▒=2-3 points, ▓=4-7 points, █=8+ points
+Stats: avg size=128 lines, avg age=218.3 days
+```
