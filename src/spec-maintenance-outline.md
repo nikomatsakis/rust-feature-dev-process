@@ -6,7 +6,7 @@
 
 ## II. Where We Align
 - Content experts (teams) own technical accuracy
-- Editorial function needed for coherence and accessibility
+- Editorial function needed for coherence, clarity, and accessibility
 - Teams don't want to do editorial work, editors need technical expertise
 - Reference updates should happen earlier in development process, not just at stabilization
 - Lang-team/types-team champions responsible for driving Reference updates (though contributors/owners can also drive the work)
