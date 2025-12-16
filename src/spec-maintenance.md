@@ -184,7 +184,7 @@ Having "in-progress" text edits landed in the repository would have the same
 
 #### Con: Reference includes "unstable" text
 
-The current Reference includes only "stable" text, making it suitable for viewing from outside the Rust project. A Reference that includes draft text might work against the "reputation for stability" that would otherwise come from a polished, well maintained specification.
+The current Reference includes only "stable" text, making it suitable for viewing from outside the Rust Project. A Reference that includes draft text might work against the "reputation for stability" that would otherwise come from a polished, well maintained specification.
 
 It is possible that feature-gated text could be hidden by default, but that would require careful work to ensure that the remaining text makes sense without it -- there is no "type checker" for the Reference to avoid, for example, errant references. The current prototype does not include this capability.
 
