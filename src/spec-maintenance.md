@@ -175,7 +175,7 @@ This setup naturally scales to iteration and contribution from multiple authors.
 
 Because text has landed upstream, it is also easy to point other people at it for review (just give them the URL).
 
-#### Pro: Refactoring and terminology changes can be applied uniformly
+#### Pro/con: Refactoring and terminology changes can be applied uniformly
 
 Having "in-progress" text edits landed in the repository would have the same
 
