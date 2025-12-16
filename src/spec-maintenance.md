@@ -171,7 +171,7 @@ Some questions to consider:
 
 #### Pro: Enables iteration by multiple authors
 
-This setup naturally scales to iteration and contribution from multiple authors. For example, the implementor and the champion of a lang feature could both review each others PRs, just as they do on the compiler, until the Reference text has reached a state where they consider it ready for review by the broader team.
+This setup naturally scales to iteration and contribution from multiple authors. For example, the implementor and the champion of a lang feature could both review each other's PRs, just as they do on the compiler, until the Reference text has reached a state where they consider it ready for review by the broader team.
 
 Because text has landed upstream, it is also easy to point other people at it for review (just give them the URL).
 
