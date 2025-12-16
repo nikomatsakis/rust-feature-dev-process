@@ -121,7 +121,7 @@ In practice, the data suggests that many PRs are merged quite quickly but the re
 PR Status Distribution (Non-trivial PRs: ≥5 line changes)
 Merged: n=289, Open: n=79, Draft: n=7
 ==========================================================================================
-Time Range   │ Merged                 │ Open (ready)          │ Draft          
+Time Range   │ Merged                 │ Open (ready)          │ Draft
 ──────────────────────────────────────────────────────────────────────────────────────────
 0-1 weeks    │ ██████████ 139 (48.1%) │             0 ( 0.0%) │             1 (14.3%)
 1-4 weeks    │ █████      70 (24.2%)  │             3 ( 3.8%) │             0 ( 0.0%)
@@ -173,7 +173,7 @@ Because text has landed upstream, it is also easy to point other people at it fo
 
 #### Pro: Refactoring and terminology changes can be applied uniformly
 
-Having "in-progress" text edits landed in the repository would have the same 
+Having "in-progress" text edits landed in the repository would have the same
 
 * Does it make sense to land "refactors" to stable content to "make room" for feature-gated content, even if that makes the stable content more complex?
     * Example: if creating new rules for temporaries would work better with a different formulation that is more complex than what's needed for the current rules, should we do so?
@@ -214,30 +214,30 @@ Points: 398 total, 397 shown (≤2000 lines, ≤1000 days)
 ================================================================================
 Age (days)
    185 ┤
-       ┤░                                                                     
-       ┤░                                                                     
-       ┤░                                                                     
-       ┤                                                                      
-       ┤░                      ░░                                             
-       ┤                                                                      
-       ┤░      ░                                                              
-       ┤▒▒                   ░                                                
-       ┤░                                                                     
-       ┤░░                                                                    
-       ┤   ░░ ░░                  ░                                           
-       ┤▒    ░    ░                                                           
-    92 ┤▒                                                                     
-       ┤░ ░                                                                   
-       ┤▒░                                                                    
-       ┤ ▒░ ▒                                                                 
-       ┤░░ ░  ░       ░              ░                                        
-       ┤░   ░                                                                 
-       ┤█░▒     ░░                                                            
-       ┤▓▒                                                                    
-       ┤█▓ ░  ▒                                                               
-       ┤█▓░░▒▒       ░                                                        
-       ┤█▓▒▒░░                                                                
-       ┤█▒▓░▒░░       ░ ░      ░     ░                                        
+       ┤░
+       ┤░
+       ┤░
+       ┤
+       ┤░                      ░░
+       ┤
+       ┤░      ░
+       ┤▒▒                   ░
+       ┤░
+       ┤░░
+       ┤   ░░ ░░                  ░
+       ┤▒    ░    ░
+    92 ┤▒
+       ┤░ ░
+       ┤▒░
+       ┤ ▒░ ▒
+       ┤░░ ░  ░       ░              ░
+       ┤░   ░
+       ┤█░▒     ░░
+       ┤▓▒
+       ┤█▓ ░  ▒
+       ┤█▓░░▒▒       ░
+       ┤█▓▒▒░░
+       ┤█▒▓░▒░░       ░ ░      ░     ░
      0 ┤████▓▒▒▓░░      ░     ░▒                             ░               ░
        └──────────────────────────────────────────────────────────────────────
         1                                                                 1741
@@ -251,30 +251,30 @@ Points: 99 total, 86 shown (≤2000 lines, ≤1000 days)
 ================================================================================
 Age (days)
    958 ┤
-       ┤░                                                                     
-       ┤                                                                      
-       ┤                                                                      
-       ┤                                                                      
-       ┤                                                                      
-       ┤                                                                      
-       ┤▒                                                                     
-       ┤░░          ░                                                         
-       ┤░                                                                     
-       ┤                                                                      
-       ┤                                                                      
-       ┤                                                                      
-   480 ┤░              ░                                                      
-       ┤▒     ░                                                               
-       ┤░      ░     ░                                                        
-       ┤░                                                                     
-       ┤░                                                                     
-       ┤░       ░░                                                            
-       ┤░░   ▒                                                                
-       ┤▒                                                                     
-       ┤▒▓▓▒░░░▒░  ░ ░ ░░░                                                    
-       ┤▓░     ░░                                                             
-       ┤▓░░ ░      ░                                                          
-       ┤▓░▒ ░  ░░                           ░                                 
+       ┤░
+       ┤
+       ┤
+       ┤
+       ┤
+       ┤
+       ┤▒
+       ┤░░          ░
+       ┤░
+       ┤
+       ┤
+       ┤
+   480 ┤░              ░
+       ┤▒     ░
+       ┤░      ░     ░
+       ┤░
+       ┤░
+       ┤░       ░░
+       ┤░░   ▒
+       ┤▒
+       ┤▒▓▓▒░░░▒░  ░ ░ ░░░
+       ┤▓░     ░░
+       ┤▓░░ ░      ░
+       ┤▓░▒ ░  ░░                           ░
      1 ┤▓░             ░                                     ░               ░
        └──────────────────────────────────────────────────────────────────────
         2                                                                 1555
