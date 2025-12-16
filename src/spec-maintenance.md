@@ -105,11 +105,13 @@ The team works to ensure that each release of the Reference reads "like a book",
 
 Keeping the changes for a language feature or Reference update in a PR has the advantage that it is easy to view the diff for a new feature. This is useful during stabilization for example.
 
-#### Pro: editorial review by non-experts helps to find bugs
+#### Pro: editorial and content review are intertwined
 
-TC put it like this:
+One purpose of editorial review is to ensure the meaning of the text is clear and unambiguous. Until the text is clear and unambiguous, it's not generally possible to ensure that the text is correct and complete.
 
-> As a meta point that often comes up in discussions about this, it's worth emphasizing that editorial review is not generally separable from determining that it's feature complete. It's the process of going over it with a fine-tooth comb that routinely uncovers the semantic problems and gaps. That we also might switch "a"s to "an"s in this step is not what dominates the cost.
+In practice, the process of making the text more clear often uncovers bugs in the text and in the implementation.
+
+When the Reference team does this careful review, they often also make other adjustments---e.g. to fix grammatical errors---but these minor adjustments do not dominate the cost of review. The dominant factor in the cost of review is ensuring that the text, in the context of the Reference as a whole, is clear and unambiguous.
 
 It is not the case that only the editorial team *can* do this (others do as well), but (today) it is often the editorial team that *does* do it.
 
