@@ -148,6 +148,8 @@ These long delays mean that contributors are reluctant to block their changes on
 
 > "I'd be very discouraged if I had to, on top of the monumental effort of fixing the code itself and validating it didn't cause any regressions, also author or edit (or wait for someone to author/edit) a somewhat tedious section [...] In a really selfish way, it feels like punishing the author for trying to do something positive with the language."
 
+However, the Reference team would point out that PRs related to stabilizations are prioritized, so looking at statistics for Reference PRs overall is misleading when judging the effect of Reference process on stabilizations. As with many other teams, some PRs are harder than others, and when those PRs are prioritized behind other things (e.g. due to not being part of a stabilization), those PRs can indeed take some time, creating a long tail in the statistics.
+
 ### Option 2: feature-gated edits
 
 Josh Triplett and the team working on the Reference expansion goal have been experimenting with an alternative process, [*feature-gated edits*](https://rust-lang.github.io/project-goal-reference-expansion/). In this process, new text can be landed in the Reference and tagged with various kinds of feature-gates that indicate what remains to be done before the code can be considered stable:
